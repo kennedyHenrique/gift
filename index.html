@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Feliz aniversário, Verônica</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Karla:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --noite:#0d121c; --ameixa:#243044; --rosa:#b3a0b8; --ambar:#c9b79c; --papel:#e6e3ec;
+  --serif:"Cormorant Garamond",Georgia,serif; --sans:"Karla",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);color:var(--papel);line-height:1.7;min-height:100vh;
+  background:linear-gradient(180deg,var(--noite) 0%,var(--ameixa) 50%,#4d5870 80%,#7d7f8c 100%) fixed;
+}
+body.travado{overflow:hidden}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:2;background:radial-gradient(ellipse at center,transparent 45%,rgba(5,8,14,.55) 100%)}
+#petalas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+/* conteúdo */
+main{position:relative;z-index:1;max-width:880px;margin:0 auto;padding:72px 20px 96px;transition:filter .9s}
+body.travado main{filter:blur(14px)}
+h1{font-family:var(--serif);font-weight:500;font-style:italic;font-size:clamp(2.6rem,9vw,5rem);line-height:1.05;text-align:center;margin-bottom:12px}
+.sub{text-align:center;max-width:46ch;margin:0 auto 36px;opacity:.85}
+.video{border-radius:18px;overflow:hidden;background:#000;box-shadow:0 20px 60px rgba(0,0,0,.45);aspect-ratio:16/9}
+.video video{width:100%;height:100%;display:block;object-fit:contain}
+h2{font-family:var(--serif);font-weight:500;font-size:clamp(1.6rem,5vw,2.2rem);text-align:center;margin:72px 0 20px}
+
+/* carrossel */
+.carrossel{position:relative;aspect-ratio:4/3;max-height:520px;margin:0 auto;border-radius:18px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4);background:var(--ameixa)}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 2.2s ease}
+.slide.ativo{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.55) sepia(.12) brightness(.88) contrast(1.05)}
+.slide .vazio{display:grid;place-items:center;height:100%;font-family:var(--serif);font-style:italic;font-size:1.4rem;opacity:.7;padding:20px;text-align:center}
+.pontos{display:flex;justify-content:center;gap:10px;margin-top:16px}
+.pontos button{width:11px;height:11px;border-radius:50%;border:0;background:rgba(251,239,230,.35);cursor:pointer;padding:0}
+.pontos button.ativo{background:var(--ambar)}
+
+/* gratidão */
+.carta{max-width:52ch;margin:0 auto;text-align:center;font-family:var(--serif);font-size:1.35rem;line-height:1.6}
+.carta p+p{margin-top:14px}
+
+/* coração */
+.final{text-align:center;margin-top:48px}
+.coracao{font-size:5.5rem;line-height:1;background:none;border:0;cursor:pointer;animation:bate 3.4s ease-in-out infinite;filter:drop-shadow(0 0 22px rgba(179,160,184,.6))}
+.coracao:focus-visible,.entrar:focus-visible{outline:3px solid var(--ambar);outline-offset:6px;border-radius:50px}
+@keyframes bate{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.dica{margin-top:6px;opacity:.85}
+.resposta{max-height:0;opacity:0;overflow:hidden;transition:all .8s}
+.resposta.on{max-height:320px;opacity:1;margin-top:20px}
+.resposta strong{display:block;font-family:var(--serif);font-style:italic;font-weight:600;font-size:clamp(2rem,8vw,3.4rem);line-height:1.15;color:var(--papel)}
+.resposta span{display:block;margin-top:12px;font-size:.95rem;opacity:.9}
+.voa{position:fixed;z-index:50;pointer-events:none;font-size:1.6rem;animation:sobe 2.2s ease-out forwards}
+@keyframes sobe{to{transform:translate(var(--dx),-70vh) scale(1.6);opacity:0}}
+
+/* portão */
+#portao{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:24px;
+  background:rgba(13,18,28,.55);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);transition:opacity .8s,visibility .8s}
+#portao.some{opacity:0;visibility:hidden}
+.entrar{font-family:var(--serif);font-style:italic;font-weight:600;font-size:clamp(1.3rem,5vw,1.8rem);color:var(--noite);
+  background:linear-gradient(135deg,var(--papel),var(--rosa));border:0;border-radius:60px;padding:20px 40px;cursor:pointer;
+  box-shadow:0 0 0 0 rgba(201,183,156,.6);animation:pulso 2.4s infinite}
+@keyframes pulso{70%{box-shadow:0 0 0 24px rgba(201,183,156,0)}100%{box-shadow:0 0 0 0 rgba(201,183,156,0)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01s!important}}
+</style>
+</head>
+<body class="travado">
+<canvas id="petalas" aria-hidden="true"></canvas>
+
+<div id="portao">
+  <button class="entrar" id="abrir">Esse é o meu presente para você</button>
+</div>
+
+<main>
+  <h1>Que bom te ver novamente</h1>
+  <p class="sub">Feliz aniversário, Verônica. Ouça com calma, sem pressa.</p>
+
+  <div class="video">
+    <!-- Coloque seu arquivo como "video.mp4" na mesma pasta desta página -->
+    <video id="video" src="video.mp4" controls playsinline preload="auto"></video>
+  </div>
+
+  <h2>Cinco anos que ficaram em mim</h2>
+  <div class="carrossel" id="carrossel" aria-label="Fotos"></div>
+  <div class="pontos" id="pontos"></div>
+
+  <h2>Obrigado, e perdão</h2>
+  <div class="carta">
+    <p>Não existe ódio aqui. Ficou o carinho, a saudade e a gratidão por tudo o que vivemos.</p>
+    <p>Peço perdão pelo que disse de errado. Siga seu caminho, conquiste a sua independência e realize cada sonho.</p>
+    <p>Isto não é um convite para voltar. É um obrigado, e o desejo de um recomeço tranquilo para nós dois.</p>
+  </div>
+
+  <div class="final">
+    <button class="coracao" id="coracao" aria-label="Tocar no coração">🤍</button>
+    <p class="dica" id="dica">Toque no coração</p>
+    <div class="resposta" id="resposta" aria-live="polite">
+      <strong>Eu amo você, Verônica!</strong>
+      <span id="registro"></span>
+    </div>
+  </div>
+</main>
+
+<script>
+/* ===== CONFIGURAÇÃO ===== */
+// Imagens do carrossel: coloque img1.jpg ... img6.jpg na mesma pasta
+const IMAGENS = ["img/img1.jpg","img/img2.jpg","img/img3.jpg","img/img4.jpg","img/img5.jpg","img/img6.jpg"];
+// Para receber um aviso por e-mail quando ela acessar/interagir:
+// crie um formulário grátis em formspree.io e cole aqui o endereço (https://formspree.io/f/xxxxxx)
+const NOTIFY_URL = "https://formspree.io/f/xbgdwnqb";
+
+/* ===== AVISO PARA O KENNEDY ===== */
+function avisar(evento){
+  if(!NOTIFY_URL) return;
+  const d = new FormData();
+  d.append("evento", evento);
+  d.append("horario", new Date().toLocaleString("pt-BR"));
+  d.append("dispositivo", navigator.userAgent);
+  fetch(NOTIFY_URL,{method:"POST",body:d,headers:{Accept:"application/json"}}).catch(()=>{});
+}
+
+/* ===== PORTÃO ===== */
+document.getElementById("abrir").addEventListener("click",()=>{
+  document.getElementById("portao").classList.add("some");
+  document.body.classList.remove("travado");
+  const v = document.getElementById("video");
+  v.play().catch(()=>{});
+  avisar("Verônica abriu a página");
+});
+
+/* ===== CARROSSEL ===== */
+const car = document.getElementById("carrossel"), pts = document.getElementById("pontos");
+IMAGENS.forEach((src,i)=>{
+  const s = document.createElement("div"); s.className = "slide"+(i?"":" ativo");
+  const im = new Image(); im.src = src; im.alt = "Lembrança "+(i+1);
+  im.onerror = ()=>{ s.innerHTML = '<div class="vazio">Adicione '+src+' na pasta da página</div>'; };
+  s.appendChild(im); car.appendChild(s);
+  const b = document.createElement("button"); b.setAttribute("aria-label","Foto "+(i+1));
+  if(!i) b.className = "ativo";
+  b.onclick = ()=>{ ir(i); reiniciar(); };
+  pts.appendChild(b);
+});
+let atual = 0, timer;
+function ir(n){
+  const sl = car.children, bs = pts.children;
+  sl[atual].classList.remove("ativo"); bs[atual].classList.remove("ativo");
+  atual = n % IMAGENS.length;
+  sl[atual].classList.add("ativo"); bs[atual].classList.add("ativo");
+}
+function reiniciar(){ clearInterval(timer); timer = setInterval(()=>ir(atual+1),5500); }
+reiniciar();
+
+/* ===== CORAÇÃO ===== */
+let tocou = false;
+document.getElementById("coracao").addEventListener("click",e=>{
+  const r = e.currentTarget.getBoundingClientRect();
+  for(let i=0;i<18;i++){
+    const h = document.createElement("span"); h.className = "voa";
+    h.textContent = ["🤍","🥀","💌","🕊️","✨"][i%5];
+    h.style.left = (r.left+r.width/2)+"px"; h.style.top = (r.top+r.height/2)+"px";
+    h.style.setProperty("--dx",(Math.random()*360-180)+"px");
+    h.style.animationDelay = (Math.random()*.3)+"s";
+    document.body.appendChild(h); setTimeout(()=>h.remove(),2700);
+  }
+  document.getElementById("resposta").classList.add("on");
+  document.getElementById("dica").textContent = "";
+  document.getElementById("registro").textContent =
+    "Kennedy ficou sabendo que você esteve aqui, em " + new Date().toLocaleString("pt-BR") + ".";
+  if(!tocou){ tocou = true; avisar("Verônica tocou no coração"); }
+});
+
+/* ===== PÉTALAS E VAGA-LUMES ===== */
+const cv = document.getElementById("petalas"), cx = cv.getContext("2d");
+let W, H; const itens = [];
+function medir(){ W = cv.width = innerWidth; H = cv.height = innerHeight; }
+addEventListener("resize",medir); medir();
+for(let i=0;i<110;i++) itens.push({x:Math.random()*W,y:Math.random()*H,l:10+Math.random()*16,vy:5+Math.random()*5,chuva:true});
+for(let i=0;i<14;i++) itens.push({x:Math.random()*W,y:Math.random()*H,r:4+Math.random()*5,vy:.25+Math.random()*.35,a:Math.random()*6.28});
+function desenhar(){
+  cx.clearRect(0,0,W,H);
+  for(const p of itens){
+    if(p.chuva){
+      p.y += p.vy; p.x -= .8;
+      if(p.y>H){ p.y=-20; p.x=Math.random()*(W+40); }
+      cx.strokeStyle="rgba(190,205,225,.16)"; cx.lineWidth=1;
+      cx.beginPath(); cx.moveTo(p.x,p.y); cx.lineTo(p.x-1.4,p.y+p.l); cx.stroke();
+    } else {
+      p.y += p.vy; p.x += Math.sin(p.a)*.3; p.a += .008;
+      if(p.y>H+20){ p.y=-20; p.x=Math.random()*W; }
+      cx.save(); cx.translate(p.x,p.y); cx.rotate(p.a);
+      cx.fillStyle="rgba(179,160,184,.32)";
+      cx.beginPath(); cx.ellipse(0,0,p.r,p.r*.55,0,0,6.28); cx.fill(); cx.restore();
+    }
+  }
+  requestAnimationFrame(desenhar);
+}
+if(!matchMedia("(prefers-reduced-motion: reduce)").matches) desenhar();
+</script>
+</body>
+</html>
